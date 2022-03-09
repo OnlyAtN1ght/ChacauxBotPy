@@ -7,9 +7,8 @@ import time
 import requests
 from datetime import datetime, timedelta
 
+from VARIABLES import TOKEN
 
-# Token discord
-TOKEN = "OTUxMTA3Njg4MDQ0MDQwMjYz.YiiqDw.0SmbEv8fsfN0z5NQRpr9foh-Leg"
 
 # Heure d'envoi du message
 HOUR,MINUTES = 20,00

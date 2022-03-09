@@ -12,6 +12,5 @@ Commands :
 !setupbot 
 
 
-The bot works
-Can get the data for the events of tomorrow 
-Can send a message with the data to a specific channel at a specific time
+Token : 
+Place the token in a variable TOKEN in a file names VARIABLES.PY (ex : TOKEN = "***********************************************************")
