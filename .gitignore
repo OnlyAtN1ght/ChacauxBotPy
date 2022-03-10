@@ -2,3 +2,4 @@
 VARIABLES.py
 *.pyc
 .DS_Store
+/ICAL-PARSER/

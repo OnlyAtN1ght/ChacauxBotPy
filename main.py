@@ -25,30 +25,63 @@ url_tp4_cyber = "https://planning.univ-ubs.fr/jsp/custom/modules/plannings/anony
 client = discord.Client()
 
 # Id channel to send message to
-main_channel = 0
+main_channel = 951448999313948712
 
 
 @client.event
 async def on_message(message):
-	# Changed the channel of the bot
-	if message.content == "!change_channel":
-		global main_channel
-		main_channel = message.channel.id
-		print("CHANGED MAIN CHANNEL :" + str(main_channel))
-		await message.channel.send("Channel Changed")
+	# Check if the sender is not the bot 
+	if message.author != client.user:
 
-	if "!cours_demain" in message.content:
-		# Check the arguments 
-		args = parse_args(message.content)
+		# Changed the channel of the bot
+		if message.content == "!change_channel":
+			global main_channel
+			main_channel = message.channel.id
+			print("CHANGED MAIN CHANNEL :" + str(main_channel))
+			await message.channel.send("Channel Changed")
 
-		events = get_tommorow_event(args)
+		if "!cours_demain" in message.content:
+			# Check the arguments 
+			args = parse_args(message.content)
 
-		for e in events:
-			m = format_event(e)
+			events = get_tommorow_event(args)
+
+			if events == None:
+				await message.channel.send("Arrete gros t nul")
+			else:
+				for e in events:
+					m = format_event(e)
+					await message.channel.send(m)
+
+		if "!wink" in message.content:
+			await message.channel.send("https://tenor.com/view/simonwink-simon-gif-25014069")
+
+		if "!twitch_prime" in message.content:
+			await message.channel.send("connaissez-vous Twitch Prime : https://www.twitch.tv/nonames_tv")
+
+		if "!draven" in message.content:
+			await message.channel.send("https://euw.op.gg/summoners/euw/franciscoco")
+
+		if "!francis" in message.content:
+			await message.channel.send("https://media.discordapp.net/attachments/771107470457307166/938711411314532372/francis.gif")
+
+		if "!bretagne" in message.content:
+			await message.channel.send("https://cdn.discordapp.com/emojis/917430160435843173.webp?size=240&quality=lossless")
+
+		if "!salles_libres" in message.content:
+			m = get_salles_libres()
 			await message.channel.send(m)
 
-	if message.content == "!help":
-		await message.channel.send("Commands : \n!change_channel\n!cours_demain (tp1/tp2/cyber)\n!help")
+		if "!moudoule" in message.content:
+			await message.channel.send("https://cdn.discordapp.com/attachments/918506634010046504/951470082180149320/unknown.png")
+
+		if "!boussole" in message.content:
+			await message.channel.send("@EmileButter#7083 ")
+
+		
+
+		if message.content == "!help":
+			await message.channel.send("Commands : \n!change_channel\n!cours_demain (tp1/tp2/cyber)\n!wink (meilleur commande) \n!twitch_prime \n!francis \n!help")
 
 
 # Client is ready
@@ -87,12 +120,25 @@ async def called_once_a_day():
 		message_channel = client.get_channel(main_channel)
 		if message_channel != None:
 			# Get all events
-			events = get_tommorow_event()
+			first_event_tp1 = get_tommorow_event()[0]
+			first_event_tp2 = get_tommorow_event(["tp2"])[0]
+			first_event_cyber = get_tommorow_event(["cyber"])[0]
 
-			# Message a envoyer
-			message = "Premier cours : " + format_event(events[0])
+			# Message a envoyer TP1
+			message = "Premier cours TP1 : " + format_event(first_event_tp1)
 			print("SEND : " + message)
 			await message_channel.send(message)
+
+			# Message a envoyer TP2
+			message = "Premier cours TP2 : " + format_event(first_event_tp2)
+			print("SEND : " + message)
+			await message_channel.send(message)
+
+			# Message a envoyer Cyber
+			message = "Premier cours cyber : " + format_event(first_event_cyber)
+			print("SEND : " + message)
+			await message_channel.send(message)
+
 
 
 # Get the events from tommorrow 
@@ -107,6 +153,9 @@ def get_tommorow_event(groupe):
 		url = url_grp2_log
 	elif groupe[0] == "tp1":
 		url = url_grp1_log
+
+	if url == "":
+		return None
 
 	# Get the data from the planning 
 	c = Calendar(requests.get(url).text)
@@ -127,12 +176,68 @@ def get_tommorow_event(groupe):
 			l.append(e)
 	return l
 
-# Start the loop
-called_once_a_day.start()
+def get_salles_libres():
+	url = "https://planning.univ-ubs.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?data=8241fc387320021403ea5a409591dbc3327ebf4d37fa3b8893e504f8fb4328d223791f3efcb060cd7408538e9571ec0fcc0329252e070fa6673c4282646e5f54395d07bffeaee1d7324cfcf2e9e6b4356213d7c347ee7c2df43b49ed91b3cccdb0db0d7caf18783a6e383fe55999af1e19541e84f90735ed6e8504f9d2b878bb4a000f664cf02e57"
+	c = Calendar(requests.get(url).text)
 
-# Start the bot
-client.run(TOKEN)
+	sallesOccupées = []
+	all_salles = ['V-TO-ENSIBS-A106', 'V-TO-ENSIBS-D009', 'V-TO-ENSIBS-D003', 'V-TO-ENSIBS-D113', 'V-TO-ENSIbs - B001 amphi', 'V-TO-ENSIbs-A105-107', 'V-TO-ENSIBS-D010', 'V-TO-ENSIbs-A103', 'V-TO-ENSIBS-D005', 'V-TO-ENSIbs-A102 TBI', 'V-TO-ENSIbs-D001', 'V-TO-ENSIBS-A104', 'V-TO-ENSIBS-D105']
+	for e in list(c.timeline):
+		date_start = str(e.begin)
+		date_end = str(e.end)
+		#print(date_start)
+		#print(date_start[10:12])
 
+		cours_start_month = date_start[5:7]
+		cours_start_day = date_start[8:10]
+
+		today = datetime.now()
+		current_month = str(today.month).zfill(2)
+		current_day = str(today.day).zfill(2)
+
+		#print(cours_start_month,cours_start_day,current_month,current_day)
+		if (cours_start_month == current_month and cours_start_day == current_day):
+			#print(e)
+
+			current_hour = today.hour
+			current_minutes = today.minute
+
+			cours_debut_hour = int(date_start[11:13])
+			cours_debut_minutes = int(date_start[14:16])
+
+			cours_fin_hour = int(date_end[11:13])
+			cours_fin_minutes = int(date_end[14:16])
+
+			# L'event est avant l'heure actuelle
+			if (cours_debut_hour < current_hour or (cours_debut_hour == current_hour and cours_debut_minutes < current_minutes)):
+				# L'event fin est après l'heure actuelle 
+				# => Un cours a lieu en ce moment
+				if (cours_fin_hour > current_hour or (cours_fin_hour == current_hour and cours_fin_minutes > current_minutes)):
+					sallesOccupées.append(str(e.location))
+
+
+	message = "Salles Occupées : " + ",".join([s for s in sallesOccupées if s in all_salles])
+
+	libres = [salle for salle in all_salles if salle not in sallesOccupées]
+
+	message += "\nSalles Libres : " + ",".join(libres)
+
+	message = message.replace("V-TO-ENSIBS-","").replace("V-TO-ENSIbs - ","").replace("V-TO-ENSIbs-","").replace("amphi","").replace(" TBI","")
+	return message
+
+
+
+
+def start_bot():
+
+	# Start the loop
+	called_once_a_day.start()
+
+	# Start the bot
+	client.run(TOKEN)
+
+start_bot()
+#get_salles_libres()
 
 
 
