@@ -9,7 +9,9 @@
 
 Commands : 
 
-!setupbot 
+!change_channel
+!cours_demain
+!help
 
 
 Token : 
