@@ -55,8 +55,12 @@ async def on_message(message):
 				print("!cours_demain : Erreur")
 				await message.channel.send("Arrete gros t nul")
 			else:
+				if args:
+					s = "!cours_demain : " + str(args[0])
+				else:
+					s = "!cours_demain : TP1"
+				print(s)
 				for e in events:
-					print("!cours_demain : " + str(args[0]))
 					m = format_event(e)
 					await message.channel.send(m)
 

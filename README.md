@@ -21,9 +21,6 @@ Place the token in a variable TOKEN in a file names VARIABLES.PY (ex : TOKEN = "
 
 
 TODO :
-- Fin des cours 
-- Reformat code 
-- Salles libres (heure de fin de liberté de la salle)
 - discord.Embed
 - requierments.txt
 
