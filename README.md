@@ -24,7 +24,6 @@ TODO :
 - Fin des cours 
 - Reformat code 
 - Salles libres (heure de fin de liberté de la salle)
-- Better logs (channel)
 - discord.Embed
 - requierments.txt
 

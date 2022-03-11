@@ -34,7 +34,10 @@ main_channel = 951448999313948712
 async def on_message(message):
 	# Check if the sender is not the bot 
 	if message.author != client.user:
-		print("Message de " + message.author + " in "+ str(message.channel))
+		author = str(message.author)
+		message_content = str(message.content)
+
+		print("Message de " + author + " in "+ str(message.channel) + " : " + message_content)
 
 		# Changed the channel of the bot
 		if message.content == "!change_channel":
@@ -68,8 +71,8 @@ async def on_message(message):
 
 		if "!draven" in message.content:
 			print("!draven")
-			message = draven()
-			await message.channel.send(message)
+			m = draven()
+			await message.channel.send(m)
 
 		if "!francis" in message.content:
 			print("!francis")
@@ -88,7 +91,8 @@ async def on_message(message):
 			rank = rankbot_activation(username)
 			if rank:
 				await message.channel.send("Rank de {username} : {rank}".format(username=username,rank=rank))
-
+			else:
+				await message.channel.send("Ereur dans la récupération du rank (summoners doesn't exists or he's unranked (noob ))")
 
 		if "!moudoule" in message.content:
 			ran = int(random.random()*100)
@@ -207,6 +211,8 @@ def get_salles_libres():
 	c = Calendar(requests.get(url).text)
 
 	sallesOccupées = []
+	heures_fin = {}
+	heures_libre = {}
 	all_salles = ['V-TO-ENSIBS-A106', 'V-TO-ENSIBS-D009', 'V-TO-ENSIBS-D003', 'V-TO-ENSIBS-D113', 'V-TO-ENSIbs - B001 amphi', 'V-TO-ENSIbs-A105-107', 'V-TO-ENSIBS-D010', 'V-TO-ENSIbs-A103', 'V-TO-ENSIBS-D005', 'V-TO-ENSIbs-A102 TBI', 'V-TO-ENSIbs-D001', 'V-TO-ENSIBS-A104', 'V-TO-ENSIBS-D105']
 	for e in list(c.timeline):
 		date_start = str(e.begin)
@@ -240,22 +246,43 @@ def get_salles_libres():
 				# => Un cours a lieu en ce moment
 				if (cours_fin_hour > current_hour or (cours_fin_hour == current_hour and cours_fin_minutes > current_minutes)):
 					sallesOccupées.append(str(e.location))
+					heures_fin[str(e.location)] = str(cours_fin_hour)+ ":" + str(cours_fin_minutes)
+				elif (cours_debut_hour > current_hour or (cours_debut_hour == current_hour and cours_debut_minutes > current_minutes)):
+					# Check s'il y a deja une entrée
+					# => Que le cours est après l'entrée deja dans le tableau 
+					if str(e.location) not in heures_libre:
+						heures_libre[str(e.location)] = str(cours_debut_hour)+ ":" + str(cours_debut_minutes)
 
 
-	message = "Salles Occupées : " + ",".join([s for s in sallesOccupées if s in all_salles])
+
+	# Final string
+	# Add the salles occupees and the end of the current course
+	message = "Salles Occupées : " + ", ".join([s + " -> " + heures_fin[s] for s in sallesOccupées if s in all_salles])
 
 	libres = [salle for salle in all_salles if salle not in sallesOccupées]
 
-	message += "\nSalles Libres : " + ",".join(libres)
+	# Add the salles libres and the start of the next course in the final stirng
+	message += "\nSalles Libres : "
+	for s in libres:
+		message += s + " -> "
+		if s in heures_libre:
+			message += heures_libre[s]
+		else:
+			message += "Demain"
+		message += ", "
 
+	# Remove the last ",""
+	message = message[:-2]
+
+	# Replace all 
 	message = message.replace("V-TO-ENSIBS-","").replace("V-TO-ENSIbs - ","").replace("V-TO-ENSIbs-","").replace("amphi","").replace(" TBI","")
-	message += "\n©️ @NoNames#4808"
+	# <3 Arthur
+	message += "\n©️ Athur Pêtre"
 	return message
 
 
 
 def start_bot():
-
 	# Start the loop
 	called_once_a_day.start()
 

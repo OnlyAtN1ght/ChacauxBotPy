@@ -8,7 +8,7 @@ def rankbot_activation(username):
         name = "https://euw.op.gg/summoners/euw/" + username
         headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
         source = requests.get(name, "lxml",headers=headers).text
-        #print(source)
+        #print(source.text)
         soup = BeautifulSoup(source, "html.parser")
         lp = soup.find("span", {"class": "lp"}).text
         rank = soup.find("div", {"class": "tier-rank"}).text
@@ -38,7 +38,7 @@ def draven():
         print(played)
 
         message = "Franciscoco on Draven : {winrate} in {played}".format(winrate=winrate,played=played)
-        print(message)
+        return message
 
     except Exception as e:
         print(e)
