@@ -109,6 +109,9 @@ async def on_message(message):
 		if "!boussole" in message.content:
 			await message.channel.send("@EmileButter#7083 ")
 
+		if "!wide" in message.content:
+			await message.channel.send("https://tenor.com/view/ensibs-wide-thomas-widethomas-gif-25094179")
+
 
 
 		if message.content == "!help":
