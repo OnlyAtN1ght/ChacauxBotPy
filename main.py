@@ -32,6 +32,7 @@ main_channel = 951448999313948712
 @client.event
 async def on_message(message):
 	# Check if the sender is not the bot 
+	
 	if message.author != client.user:
 		author = str(message.author)
 		message_content = str(message.content)
@@ -112,7 +113,11 @@ async def on_message(message):
 		if "!wide" in message.content:
 			await message.channel.send("https://tenor.com/view/ensibs-wide-thomas-widethomas-gif-25094179")
 
+		if "!a 2 doigts de ban le bot" in message.content:
+			await message.channel.send("NON")
 
+		if "!munster" in message.content:
+			await message.channel.send("https://tenor.com/view/munster-fromage-vall%C3%A9e-de-munster-vall%C3%A9e-alsace-gif-23983641")
 
 		if message.content == "!help":
 			await message.channel.send("Commands : \n!change_channel\n!cours_demain (tp1/tp2/cyber)\n!wink (meilleur commande) \n!twitch_prime \n!francis  \n!salles_libres  \n!rank  \n!moudoule  \n!help")

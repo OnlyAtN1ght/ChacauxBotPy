@@ -23,10 +23,9 @@ Place the token in a variable TOKEN in a file names VARIABLES.PY (ex : TOKEN = "
 TODO :
 - discord.Embed
 - requierments.txt
+- working ping 
 
 MAYBE : 
-- Add args for python3 main.py (??)
 - !japanese
 - !munster
-- !boussole ?
 - !garen 
