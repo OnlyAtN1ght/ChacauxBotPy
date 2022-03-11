@@ -24,9 +24,9 @@ TODO :
 - Fin des cours 
 - Reformat code 
 - Salles libres (heure de fin de liberté de la salle)
-- Better logs (channel, sender)
-- Cochons (!moudoule 10%)
+- Better logs (channel)
 - discord.Embed
+- requierments.txt
 
 MAYBE : 
 - Add args for python3 main.py (??)

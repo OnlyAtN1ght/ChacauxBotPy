@@ -6,8 +6,10 @@ from ics import Calendar
 import time
 import requests
 from datetime import datetime, timedelta
+import random
 
 from VARIABLES import TOKEN
+from rankfinder import rankbot_activation,draven
 
 
 # Heure d'envoi du message
@@ -32,12 +34,13 @@ main_channel = 951448999313948712
 async def on_message(message):
 	# Check if the sender is not the bot 
 	if message.author != client.user:
+		print("Message de " + message.author + " in "+ str(message.channel))
 
 		# Changed the channel of the bot
 		if message.content == "!change_channel":
 			global main_channel
 			main_channel = message.channel.id
-			print("CHANGED MAIN CHANNEL :" + str(main_channel))
+			print("!change_channel :" + str(main_channel))
 			await message.channel.send("Channel Changed")
 
 		if "!cours_demain" in message.content:
@@ -47,41 +50,62 @@ async def on_message(message):
 			events = get_tommorow_event(args)
 
 			if events == None:
+				print("!cours_demain : Erreur")
 				await message.channel.send("Arrete gros t nul")
 			else:
 				for e in events:
+					print("!cours_demain : " + str(args[0]))
 					m = format_event(e)
 					await message.channel.send(m)
 
 		if "!wink" in message.content:
+			print("!wink")
 			await message.channel.send("https://tenor.com/view/simonwink-simon-gif-25014069")
 
 		if "!twitch_prime" in message.content:
+			print("!twitch_prime")
 			await message.channel.send("connaissez-vous Twitch Prime : https://www.twitch.tv/nonames_tv")
 
 		if "!draven" in message.content:
-			await message.channel.send("https://euw.op.gg/summoners/euw/franciscoco")
+			print("!draven")
+			message = draven()
+			await message.channel.send(message)
 
 		if "!francis" in message.content:
+			print("!francis")
 			await message.channel.send("https://media.discordapp.net/attachments/771107470457307166/938711411314532372/francis.gif")
 
 		if "!bretagne" in message.content:
+			print("!bretagne")
 			await message.channel.send("https://cdn.discordapp.com/emojis/917430160435843173.webp?size=240&quality=lossless")
 
 		if "!salles_libres" in message.content:
 			m = get_salles_libres()
 			await message.channel.send(m)
 
+		if "!rank" in message.content:
+			username = "".join(parse_args(message.content))
+			rank = rankbot_activation(username)
+			if rank:
+				await message.channel.send("Rank de {username} : {rank}".format(username=username,rank=rank))
+
+
 		if "!moudoule" in message.content:
-			await message.channel.send("https://cdn.discordapp.com/attachments/918506634010046504/951470082180149320/unknown.png")
+			ran = int(random.random()*100)
+			if ran > 10:
+				await message.channel.send("https://cdn.discordapp.com/attachments/918506634010046504/951470082180149320/unknown.png")
+			else:
+				await message.channel.send("https://tenor.com/view/animal-eating-enormous-fat-hello-there-gif-20202771")
+
+
 
 		if "!boussole" in message.content:
 			await message.channel.send("@EmileButter#7083 ")
 
-		
+
 
 		if message.content == "!help":
-			await message.channel.send("Commands : \n!change_channel\n!cours_demain (tp1/tp2/cyber)\n!wink (meilleur commande) \n!twitch_prime \n!francis \n!help")
+			await message.channel.send("Commands : \n!change_channel\n!cours_demain (tp1/tp2/cyber)\n!wink (meilleur commande) \n!twitch_prime \n!francis  \n!salles_libres  \n!rank  \n!moudoule  \n!help")
 
 
 # Client is ready
@@ -97,6 +121,8 @@ def set_day():
 # Format an event from ics to a readable string
 def format_event(event):
 	heure = str(int(str(event.begin)[11:13]) + 1) + ":" + str(event.begin)[14:16]
+	if "Projet système à logiciel prépondérant" in str(event.name):
+		return str(event.name) + " à " + heure + "(Inutile)"
 	return str(event.name) + " à " + heure
 
 
@@ -223,8 +249,8 @@ def get_salles_libres():
 	message += "\nSalles Libres : " + ",".join(libres)
 
 	message = message.replace("V-TO-ENSIBS-","").replace("V-TO-ENSIbs - ","").replace("V-TO-ENSIbs-","").replace("amphi","").replace(" TBI","")
+	message += "\n©️ @NoNames#4808"
 	return message
-
 
 
 
@@ -237,9 +263,6 @@ def start_bot():
 	client.run(TOKEN)
 
 start_bot()
-#get_salles_libres()
-
-
 
 
 
