@@ -35,6 +35,7 @@ async def on_message(message):
 	
 	if message.author != client.user:
 		author = str(message.author)
+		print(message.author.id)
 		message_content = str(message.content)
 
 		print("Message de " + author + " in "+ str(message.channel) + " : " + message_content)
@@ -118,6 +119,14 @@ async def on_message(message):
 
 		if "!munster" in message.content:
 			await message.channel.send("https://tenor.com/view/munster-fromage-vall%C3%A9e-de-munster-vall%C3%A9e-alsace-gif-23983641")
+
+		if '!random' in message.content:
+			url_list = ["https://tenor.com/view/ensibs-wide-thomas-widethomas-gif-25094179","https://cdn.discordapp.com/attachments/918506634010046504/951470082180149320/unknown.png","https://media.discordapp.net/attachments/771107470457307166/938711411314532372/francis.gif","https://tenor.com/view/simonwink-simon-gif-25014069"]
+			m = random.choice(url_list)
+			message.channel.send(m)
+
+		#if "!escorte_vannes" in message.content:
+			#await message.channel
 
 		if message.content == "!help":
 			await message.channel.send("Commands : \n!change_channel\n!cours_demain (tp1/tp2/cyber)\n!wink (meilleur commande) \n!twitch_prime \n!francis  \n!salles_libres  \n!rank  \n!moudoule  \n!help")
