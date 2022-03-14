@@ -121,9 +121,11 @@ async def on_message(message):
 			await message.channel.send("https://tenor.com/view/munster-fromage-vall%C3%A9e-de-munster-vall%C3%A9e-alsace-gif-23983641")
 
 		if '!random' in message.content:
+			print("r")
 			url_list = ["https://tenor.com/view/ensibs-wide-thomas-widethomas-gif-25094179","https://cdn.discordapp.com/attachments/918506634010046504/951470082180149320/unknown.png","https://media.discordapp.net/attachments/771107470457307166/938711411314532372/francis.gif","https://tenor.com/view/simonwink-simon-gif-25014069"]
 			m = random.choice(url_list)
-			message.channel.send(m)
+			print(m)
+			await message.channel.send(m)
 
 		#if "!escorte_vannes" in message.content:
 			#await message.channel
