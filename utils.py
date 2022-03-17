@@ -12,3 +12,17 @@ def format_event(event):
 # Return a list
 def parse_args(message):
 	return message.split(" ")[1:]
+
+# Add a lign to the file "data/new_commands.txt" containing the new command
+def add_command(message):
+	with open("data/new_commands.txt","a") as f:
+		f.write(message)
+		f.write("\n")
+		f.close()
+
+def get_new_commands():
+	with open("data/new_commands.txt","r") as f:
+		return f.read().split("\n")
+
+if __name__ == '__main__':
+	print(get_new_commands())

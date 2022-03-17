@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 from VARIABLES import TOKEN
 from rankfinder import rankbot_activation,draven
-from utils import format_event, parse_args
+from utils import format_event, parse_args,add_command,get_new_commands
 from ics_utils import get_tommorow_event,get_salles_libres
 
 
@@ -130,8 +130,20 @@ async def on_message(message):
 		#if "!escorte_vannes" in message.content:
 			#await message.channel
 
+		if "!add_command" in message.content:
+			args = parse_args(message.content)
+			new_command = " ".join(args)
+			add_command(new_command)
+			await message.channel.send("New Command : " + new_command)
+
+		if "!see_new_commands" in message.content:
+			all_commands = get_new_commands()
+			for command in all_commands:
+				await message.channel.send(command)
+
+
 		if message.content == "!help":
-			await message.channel.send("Commands : \n!change_channel\n!cours_demain (tp1/tp2/cyber)\n!wink (meilleur commande) \n!twitch_prime \n!francis  \n!salles_libres  \n!rank  \n!moudoule  \n!help")
+			await message.channel.send("Commands : \n!change_channel\n!cours_demain (tp1/tp2/cyber)\n!wink (meilleur commande) \n!twitch_prime \n!francis  \n!salles_libres  \n!rank  \n!moudoule  \n!add_command \n!see_new_commands\n!help")
 
 
 # Client is ready
