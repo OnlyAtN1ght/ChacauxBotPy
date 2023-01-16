@@ -3,3 +3,4 @@ VARIABLES.py
 *.pyc
 .DS_Store
 /ICAL-PARSER/
+riotApi/TOKEN.py

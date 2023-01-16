@@ -1,5 +1,6 @@
 import discord
 from discord.ext import tasks
+from discord.ext import commands #Module python
 
 import random
 from datetime import datetime, timedelta
@@ -23,7 +24,10 @@ url_grp2_log = "https://planning.univ-ubs.fr/jsp/custom/modules/plannings/anonym
 url_tp4_cyber = "https://planning.univ-ubs.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?data=8241fc3873200214e659a3a5a28a8ccfe0fa50826f0818af4a82a8fde6ce3f14906f45af276f59ae8fac93f781e86152b11da73a3d6d4343f9d4d7095cee5623c2973627c2eb073be3b599defae53fd98d3f4109b6629391"
 
 # Client discord
+intents = discord.Intents.all()
 client = discord.Client()
+#client = commands.Bot(command_prefix= "!",help_command=None , description = "ChacauxBot", intents= discord.Intents.all()) #prefix du bot + Commande help 
+
 
 # Id channel to send message to
 main_channel = 951448999313948712
@@ -37,6 +41,9 @@ async def on_message(message):
 		author = str(message.author)
 		print(message.author.id)
 		message_content = str(message.content)
+		print(message)
+		print(message.id)
+		print(message.content)
 
 		print("Message de " + author + " in "+ str(message.channel) + " : " + message_content)
 
@@ -140,7 +147,6 @@ async def on_message(message):
 			all_commands = get_new_commands()
 			for command in all_commands:
 				await message.channel.send(command)
-
 
 		if message.content == "!help":
 			await message.channel.send("Commands : \n!change_channel\n!cours_demain (tp1/tp2/cyber)\n!wink (meilleur commande) \n!twitch_prime \n!francis  \n!salles_libres  \n!rank  \n!moudoule  \n!add_command \n!see_new_commands\n!help")
