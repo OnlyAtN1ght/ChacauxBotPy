@@ -24,8 +24,8 @@ url_grp2_log = "https://planning.univ-ubs.fr/jsp/custom/modules/plannings/anonym
 url_tp4_cyber = "https://planning.univ-ubs.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?data=8241fc3873200214e659a3a5a28a8ccfe0fa50826f0818af4a82a8fde6ce3f14906f45af276f59ae8fac93f781e86152b11da73a3d6d4343f9d4d7095cee5623c2973627c2eb073be3b599defae53fd98d3f4109b6629391"
 
 # Client discord
-intents = discord.Intents.all()
-client = discord.Client()
+intents = discord.Intents.default()
+client = discord.Client(intents=intents)
 #client = commands.Bot(command_prefix= "!",help_command=None , description = "ChacauxBot", intents= discord.Intents.all()) #prefix du bot + Commande help 
 
 
