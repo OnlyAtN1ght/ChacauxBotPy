@@ -165,36 +165,36 @@ def set_day():
 
 
 # Loop every day
-@tasks.loop(seconds=30)
-async def called_once_a_day():
-	# Check if the hour and minutes is good
-	# Check if the day is good
-	# Check if the channel is setup
-	if datetime.now().hour == HOUR and datetime.now().minute == MINUTES and datetime.now().day != current_day and main_channel != 0:
-		set_day()
-
-		# get the channel
-		message_channel = client.get_channel(main_channel)
-		if message_channel != None:
-			# Get all events
-			first_event_tp1 = get_tommorow_event()[0]
-			first_event_tp2 = get_tommorow_event(["tp2"])[0]
-			first_event_cyber = get_tommorow_event(["cyber"])[0]
-
-			# Message a envoyer TP1
-			message = "Premier cours TP1 : " + format_event(first_event_tp1)
-			print("SEND : " + message)
-			await message_channel.send(message)
-
-			# Message a envoyer TP2
-			message = "Premier cours TP2 : " + format_event(first_event_tp2)
-			print("SEND : " + message)
-			await message_channel.send(message)
-
-			# Message a envoyer Cyber
-			message = "Premier cours cyber : " + format_event(first_event_cyber)
-			print("SEND : " + message)
-			await message_channel.send(message)
+#@tasks.loop(seconds=30)
+#async def called_once_a_day():
+#	# Check if the hour and minutes is good
+#	# Check if the day is good
+#	# Check if the channel is setup
+#	if datetime.now().hour == HOUR and datetime.now().minute == MINUTES and datetime.now().day != current_day and main_channel != 0:
+#		set_day()
+#
+#		# get the channel
+#		message_channel = client.get_channel(main_channel)
+#		if message_channel != None:
+#			# Get all events
+#			first_event_tp1 = get_tommorow_event()[0]
+#			first_event_tp2 = get_tommorow_event(["tp2"])[0]
+#			first_event_cyber = get_tommorow_event(["cyber"])[0]
+#
+#			# Message a envoyer TP1
+#			message = "Premier cours TP1 : " + format_event(first_event_tp1)
+#			print("SEND : " + message)
+#			await message_channel.send(message)
+#
+#			# Message a envoyer TP2
+#			message = "Premier cours TP2 : " + format_event(first_event_tp2)
+#			print("SEND : " + message)
+#			await message_channel.send(message)
+#
+#			# Message a envoyer Cyber
+#			message = "Premier cours cyber : " + format_event(first_event_cyber)
+#			print("SEND : " + message)
+#			await message_channel.send(message)
 
 
 
@@ -204,7 +204,7 @@ async def called_once_a_day():
 
 def start_bot():
 	# Start the loop
-	called_once_a_day.start()
+	#called_once_a_day.start()
 
 	# Start the bot
 	client.run(TOKEN)
